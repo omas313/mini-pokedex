@@ -3,6 +3,7 @@ import pokemonService from "../../services/pokemonService";
 import "./Pokecard.css";
 import pokeballImage from "../../images/pokeball.svg";
 import pokeballColoredImage from "../../images/pokeball-color.svg";
+import pokemonStorage from "../../services/pokemonStorage";
 
 const Pokecard = ({ name, style }) => {
   const [data, setData] = useState(null);
@@ -17,7 +18,7 @@ const Pokecard = ({ name, style }) => {
       if (!isMounted) return;
 
       setData(pokemon);
-      // update isCaught based on local storage
+      setIsCaught(pokemonStorage.doesExist(pokemon.name));
     }
 
     getPokemonData();
@@ -26,7 +27,9 @@ const Pokecard = ({ name, style }) => {
   }, [name]);
 
   const handleToggleCatch = () => {
-    // update local storage
+    if (isCaught) pokemonStorage.remove(data.name);
+    else pokemonStorage.add(data.name);
+
     setIsCaught(!isCaught);
   };
 
