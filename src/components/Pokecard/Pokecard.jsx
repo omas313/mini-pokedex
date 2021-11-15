@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import pokemonService from "../../services/pokemonService";
 import "./Pokecard.css";
+import pokeballImage from "../../images/pokeball.svg";
+import pokeballColoredImage from "../../images/pokeball-color.svg";
 
 const Pokecard = ({ name }) => {
   const [data, setData] = useState(null);
@@ -28,15 +30,19 @@ const Pokecard = ({ name }) => {
     setIsCaught(!isCaught);
   };
 
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
   return (
     <>
       {data && (
-        <section className="pokecard">
-          <div className="pokecard__title">{data.name}</div>
+        <article className="pokecard">
+          <div className="pokecard__title">{capitalize(data.name)}</div>
           <div className="pokecard__pokeball">
-            <button onClick={handleToggleCatch}>
-              {isCaught ? "release?" : "catch!"}
-            </button>
+            <img
+              onClick={handleToggleCatch}
+              src={isCaught ? pokeballColoredImage : pokeballImage}
+              alt={isCaught ? "Colored Pokeball" : "Pokeball silhouette"}
+            />
           </div>
           <div className="pokecard__image-container">
             <img
@@ -44,7 +50,7 @@ const Pokecard = ({ name }) => {
               alt={`Front view of ${name}`}
             />
           </div>
-        </section>
+        </article>
       )}
     </>
   );
