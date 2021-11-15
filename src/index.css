@@ -15,7 +15,8 @@ html {
 body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  background-color: var(--color-primary);
+  background: url("./images/dragon-scales.svg");
+  background-attachment: fixed;
   color: var(--color-light);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
