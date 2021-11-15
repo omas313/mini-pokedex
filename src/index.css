@@ -39,3 +39,12 @@ h3 {
   line-height: 1.1;
   margin-bottom: 1rem;
 }
+
+.list {
+  margin: 0;
+  padding: 0;
+}
+
+.list--bulletless {
+  list-style-type: none;
+}

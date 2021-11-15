@@ -1,56 +1,27 @@
-import React, { useEffect, useState } from "react";
-import pokemonService from "../../services/pokemonService";
+import React from "react";
+import { Link } from "react-router-dom";
+import Pokeball from "../Pokeball/Pokeball";
+import usePokemon from "./../../hooks/usePokemon";
+import capitalize from "./../../utils/capitalize";
 import "./Pokecard.css";
-import pokeballImage from "../../images/pokeball.svg";
-import pokeballColoredImage from "../../images/pokeball-color.svg";
-import pokemonStorage from "../../services/pokemonStorage";
 
 const Pokecard = ({ name, style }) => {
-  const [data, setData] = useState(null);
-  const [isCaught, setIsCaught] = useState(false);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function getPokemonData() {
-      const pokemon = await pokemonService.get(name);
-
-      if (!isMounted) return;
-
-      setData(pokemon);
-      setIsCaught(pokemonStorage.doesExist(pokemon.name));
-    }
-
-    getPokemonData();
-
-    return () => (isMounted = false);
-  }, [name]);
-
-  const handleToggleCatch = () => {
-    if (isCaught) pokemonStorage.remove(data.name);
-    else pokemonStorage.add(data.name);
-
-    setIsCaught(!isCaught);
-  };
-
-  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+  const { pokemon, isCaught, handleToggleCatch } = usePokemon(name);
 
   return (
     <>
-      {data && (
+      {pokemon && (
         <article style={style} className="pokecard-container">
           <div className="pokecard">
-            <div className="pokecard__title">{capitalize(data.name)}</div>
+            <div className="pokecard__title">
+              <Link to={`/pokemon/${name}`}>{capitalize(pokemon.name)}</Link>
+            </div>
             <div className="pokecard__pokeball">
-              <img
-                onClick={handleToggleCatch}
-                src={isCaught ? pokeballColoredImage : pokeballImage}
-                alt={isCaught ? "Colored Pokeball" : "Pokeball silhouette"}
-              />
+              <Pokeball isCaught={isCaught} onToggleCatch={handleToggleCatch} />
             </div>
             <div className="pokecard__image-container">
               <img
-                src={data.sprites.front_default}
+                src={pokemon.sprites.front_default}
                 alt={`Front view of ${name}`}
               />
             </div>
